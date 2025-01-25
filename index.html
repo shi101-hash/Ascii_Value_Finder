@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Value Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results, .records {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .results {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ASCII Value Finder</h1>
+        <form id="asciiForm">
+            <input type="text" id="characterInput" placeholder="Enter a character" maxlength="1" required>
+            <br>
+            <button type="submit">Find ASCII Value</button>
+            <button type="button" id="viewRecordsBtn">View Records</button>
+            <button type="button" id="clearRecordsBtn">Clear Records</button>
+        </form>
+        <div class="results" id="result"></div>
+        <div class="records" id="records"></div>
+    </div>
+
+    <script>
+        // In-memory storage for records
+        const records = [];
+
+        // Handle form submission
+        document.getElementById('asciiForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const charInput = document.getElementById('characterInput').value;
+            if (charInput.length === 1) {
+                const asciiValue = charInput.charCodeAt(0);
+                records.push({ character: charInput, ascii: asciiValue });
+                document.getElementById('result').innerHTML = 
+                    `<p>The ASCII value of '${charInput}' is: <strong>${asciiValue}</strong></p>`;
+            } else {
+                alert("Please enter a single character.");
+            }
+            document.getElementById('characterInput').value = '';
+        });
+
+        // View stored records
+        document.getElementById('viewRecordsBtn').addEventListener('click', function () {
+            const recordsDiv = document.getElementById('records');
+            if (records.length === 0) {
+                recordsDiv.innerHTML = '<p>No records found.</p>';
+            } else {
+                recordsDiv.innerHTML = '<h3>Stored Records:</h3>';
+                records.forEach((record, index) => {
+                    recordsDiv.innerHTML += `<p>${index + 1}. Character: '${record.character}', ASCII Value: ${record.ascii}</p>`;
+                });
+            }
+        });
+
+        // Clear all records
+        document.getElementById('clearRecordsBtn').addEventListener('click', function () {
+            records.length = 0;
+            document.getElementById('records').innerHTML = '';
+            alert("All records have been cleared.");
+        });
+    </script>
+</body>
+</html>
